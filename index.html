@@ -14,6 +14,15 @@
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
     <script src="js/firebase_auth.js"></script>
 
+    <script>
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                window.location.href = "home.html";
+            }
+        });
+
+    </script>
+
     <style>
         #page {
             height: 100%;
@@ -84,7 +93,7 @@
                         </fieldset>
                     </form>
                     <div class="uk-margin">
-                        <button class="uk-button uk-button-primary" onclick="forgotUser();">Send reset email</button>
+                        <button class="uk-button uk-button-primary" onclick="resetPassword();">Send reset email</button>
                     </div>
                     <div class="uk-margin">
                         <button class="uk-button uk-button-primary" uk-toggle="target: .dfp">Back</button>
@@ -136,12 +145,6 @@
         var error_title = $('modal-error-title');
         var error_text = $('modal-error-text');
 
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                window.location.href = "home.html"
-            }
-        });
-
         function loginUser() {
             if (login_email.val().length > 0 && login_password.val().length > 0) {
                 firebase.auth().signInWithEmailAndPassword(login_email.val(), login_password.val()).catch(function(error) {
@@ -152,7 +155,7 @@
             }
         }
 
-        function forgotUser() {
+        function resetPassword() {
             var auth = firebase.auth();
             if (forgot_email.val().length > 0) {
                 auth.sendPasswordResetEmail(forgot_email.val()).then(function() {
